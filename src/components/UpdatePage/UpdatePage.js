@@ -6,18 +6,10 @@ class Update extends PureComponent {
         // Retrieve the object from storage
         const retrievedObject = localStorage.getItem('formValues');
         const formValues = JSON.parse(retrievedObject);
-        console.log('retrievedObject: ', JSON.parse(retrievedObject));
         return (
             <div className="Update">
                 <RegisterForm
-                    firstName={formValues.firstName}
-                    lastName={formValues.lastName}
-                    dob={formValues.DOB}
-                    email={formValues.email}
-                    country={formValues.country}
-                    info={formValues.info}
-                    genderValue={formValues.radioGroup}
-                    sportCheckBoxes={formValues.sportCheckBoxes}
+                    formValues={formValues || {}}
                     action='Update'
                 />
             </div>

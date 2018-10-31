@@ -20,8 +20,6 @@ class RegisterForm extends PureComponent{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('aaaaaaaaa', this.props)
-
                 console.log('Received values of form: ', values);
                 // Put the object into storage
                 localStorage.setItem('formValues', JSON.stringify(values));
@@ -29,7 +27,6 @@ class RegisterForm extends PureComponent{
             }
         });
     }
-
     state = {
         indeterminate: true,
         dobCheck: 6570, //day 18 year
@@ -40,13 +37,14 @@ class RegisterForm extends PureComponent{
     };
 
     render(){
+        const formValues = this.props.formValues;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         return  (
             <Form onSubmit={this.handleSubmit} className="login-form">
 
                 <FormItem>
                     {getFieldDecorator('firstName', {
-                        initialValue: this.props.firstName,
+                        initialValue: formValues.firstName,
                         rules: [{ required: true, message: 'Please input your First Name!' }],
                     })(
                         <Input placeholder="First Name" />
@@ -55,7 +53,7 @@ class RegisterForm extends PureComponent{
 
                 <FormItem>
                     {getFieldDecorator('lastName', {
-                        initialValue: this.props.lastName,
+                        initialValue: formValues.lastName,
                         rules: [{ required: true, message: 'Please input your Last Name!' }],
                     })(
                         <Input placeholder="Last Name" />
@@ -63,8 +61,8 @@ class RegisterForm extends PureComponent{
                 </FormItem>
 
                 <FormItem>
-                    {getFieldDecorator('DOB', {
-                        initialValue: this.props.dob,
+                    {getFieldDecorator('dob', {
+                        initialValue: formValues.dob,
                         rules: [{required: true},
                             {
                                 validator: (rule, value, callback) => {
@@ -91,7 +89,7 @@ class RegisterForm extends PureComponent{
                 <FormItem
                     label="E-mail">
                     {getFieldDecorator('email', {
-                        initialValue: this.props.email,
+                        initialValue: formValues.email,
                         rules: [{
                             type: 'email', message: 'The input is not valid E-mail!',
                         }, {
@@ -104,7 +102,7 @@ class RegisterForm extends PureComponent{
 
                 <FormItem>
                     {getFieldDecorator('info', {
-                        initialValue: this.props.info,
+                        initialValue: formValues.info,
                         rules: [{required: true},
                             {
                                 validator: (rule, value, callback) => {
@@ -127,7 +125,7 @@ class RegisterForm extends PureComponent{
                 <FormItem>
                     {getFieldDecorator('radioGroup',
                         {
-                            initialValue: this.props.genderValue
+                            initialValue: formValues.radioGroup
                         }
                     )(
                         <RadioGroup name="radiogroup">
@@ -140,7 +138,7 @@ class RegisterForm extends PureComponent{
                 <FormItem >
                     {getFieldDecorator('country',
                     {
-                        initialValue: this.props.country
+                        initialValue: formValues.country
                     }
                     )(
                         <Select placeholder="Select a country">
@@ -154,7 +152,7 @@ class RegisterForm extends PureComponent{
                 <FormItem>
                     {getFieldDecorator('sportCheckBoxes',
                         {
-                            initialValue: this.props.sportCheckBoxes
+                            initialValue: formValues.sportCheckBoxes
                         })(
                         <CheckboxGroup
                             options={plainOptions}
@@ -171,6 +169,9 @@ class RegisterForm extends PureComponent{
             </Form>
         );
     }
+}
+RegisterForm.defaultProps = {
+    formValues: {}
 }
 
 const WrappedRegistrationForm = Form.create()(RegisterForm);
